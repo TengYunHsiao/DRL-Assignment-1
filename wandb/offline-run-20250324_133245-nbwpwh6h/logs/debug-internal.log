@@ -1,0 +1,14 @@
+{"time":"2025-03-24T13:32:45.8883108+08:00","level":"INFO","msg":"stream: starting","core version":"0.19.8","symlink path":"C:\\Users\\12177\\OneDrive\\文件\\DRL\\DRL HW1\\DRL-Assignment-1\\wandb\\offline-run-20250324_133245-nbwpwh6h\\logs\\debug-core.log"}
+{"time":"2025-03-24T13:32:46.4008816+08:00","level":"INFO","msg":"created new stream","id":"nbwpwh6h"}
+{"time":"2025-03-24T13:32:46.4008816+08:00","level":"INFO","msg":"stream: started","id":"nbwpwh6h"}
+{"time":"2025-03-24T13:32:46.4008816+08:00","level":"INFO","msg":"handler: started","stream_id":"nbwpwh6h"}
+{"time":"2025-03-24T13:32:46.4008816+08:00","level":"INFO","msg":"writer: Do: started","stream_id":"nbwpwh6h"}
+{"time":"2025-03-24T13:32:46.4008816+08:00","level":"INFO","msg":"sender: started","stream_id":"nbwpwh6h"}
+{"time":"2025-03-24T13:32:46.4053799+08:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-24T13:37:00.5243097+08:00","level":"INFO","msg":"stream: closing","id":"nbwpwh6h"}
+{"time":"2025-03-24T13:37:00.5243097+08:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-24T13:37:00.5256919+08:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-24T13:37:00.5279542+08:00","level":"INFO","msg":"sender: closed","stream_id":"nbwpwh6h"}
+{"time":"2025-03-24T13:37:00.5279542+08:00","level":"INFO","msg":"handler: closed","stream_id":"nbwpwh6h"}
+{"time":"2025-03-24T13:37:00.5279542+08:00","level":"INFO","msg":"writer: Close: closed","stream_id":"nbwpwh6h"}
+{"time":"2025-03-24T13:37:00.5279542+08:00","level":"INFO","msg":"stream: closed","id":"nbwpwh6h"}

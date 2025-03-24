@@ -1,0 +1,30 @@
+{
+  "os":  "Windows-11-10.0.26100-SP0",
+  "python":  "CPython 3.12.1",
+  "startedAt":  "2025-03-24T05:32:45.850708Z",
+  "program":  "C:\\Users\\12177\\OneDrive\\文件\\DRL\\DRL HW1\\DRL-Assignment-1\\ppo.py",
+  "codePath":  "ppo.py",
+  "git":  {
+    "remote":  "https://github.com/TengYunHsiao/DRL-Assignment-1.git",
+    "commit":  "cffbb771675757bc78aa3a8146f9ec740281d0bf"
+  },
+  "root":  "C:\\Users\\12177\\OneDrive\\文件\\DRL\\DRL HW1\\DRL-Assignment-1",
+  "host":  "xiao1217",
+  "executable":  "C:\\Users\\12177\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+  "codePathLocal":  "ppo.py",
+  "cpu_count":  12,
+  "cpu_count_logical":  16,
+  "disk":  {
+    "/":  {
+      "total":  "489271848960",
+      "used":  "305264312320"
+    }
+  },
+  "memory":  {
+    "total":  "16847323136"
+  },
+  "cpu":  {
+    "count":  12,
+    "countLogical":  16
+  }
+}
