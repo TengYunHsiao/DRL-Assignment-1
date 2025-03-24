@@ -19,8 +19,8 @@ class ActorCritic(nn.Module):
         :param action_dim: 動作空間的維度 (預設為 6)
         """
         super(ActorCritic, self).__init__()
-        self.fc1 = nn.Linear(input_dim, 64)  # 第一個全連接層，將輸入映射到 64 維度
-        self.fc2 = nn.Linear(64, 64)  # 第二個全連接層，保持 64 維度
+        self.layer1 = nn.Linear(input_dim, 64)  # 第一個全連接層，將輸入映射到 64 維度
+        self.layer2 = nn.Linear(64, 64)  # 第二個全連接層，保持 64 維度
         self.actor = nn.Linear(64, action_dim)  # Actor 預測動作 logits
         self.critic = nn.Linear(64, 1)  # Critic 預測當前狀態的價值 (單輸出)
 
@@ -30,8 +30,8 @@ class ActorCritic(nn.Module):
         :param x: 輸入狀態 (tensor)
         :return: (logits, value) - Actor 的 logits 和 Critic 的值估計
         """
-        x = F.relu(self.fc1(x))  # 第一層 ReLU 激活
-        x = F.relu(self.fc2(x))  # 第二層 ReLU 激活
+        x = F.relu(self.layer1(x))  # 第一層 ReLU 激活
+        x = F.relu(self.layer2(x))  # 第二層 ReLU 激活
         logits = self.actor(x)  # 計算動作 logits (未歸一化)
         value = self.critic(x)  # 計算狀態價值 (Critic 輸出)
         return logits, value
@@ -57,10 +57,6 @@ def preprocess_state(state):
         state_list = list(state_tuple)  # 轉換為列表
     except:
         state_list = list(state)  # 若非元組，則直接轉換為列表
-    
-    # 確保狀態長度正確，否則拋出錯誤
-    if len(state_list) != 16:
-        raise ValueError(f"Expected state to have 16 elements, got {len(state_list)}")
     
     return torch.tensor(state_list, dtype=torch.float32, device=device)  # 轉換為 PyTorch tensor
 
