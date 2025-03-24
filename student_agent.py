@@ -39,7 +39,7 @@ def convert_observation_to_tensor(observation):
     return torch.tensor(state_list, dtype=torch.float32, device=device)
 
 
-def select_action(observation, model):
+def get_action(observation, model):
     """
     Selects an action based on the given observation.
 
