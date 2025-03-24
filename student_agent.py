@@ -1,96 +1,82 @@
-import os
-import random
-import numpy as np
+import os  # 用於處理文件和目錄操作
+import random  # 用於隨機選擇行為
+import numpy as np  # 用於數值計算
 
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as F
+import torch  # PyTorch 深度學習框架
+import torch.nn as nn  # PyTorch 神經網絡模組
+import torch.nn.functional as F  # PyTorch 的激活函數與其他功能函數
 
-
-# 设置设备（CPU 或 GPU）
-device = "cpu"
-
-def convert_observation_to_tensor(observation):
+class ActorCritic(nn.Module):
     """
-    Converts the environment observation into a PyTorch tensor.
-
-    Args:
-        observation (tuple or list): The state representation from the environment.
-
-    Returns:
-        torch.Tensor: The processed state tensor.
-    
-    Raises:
-        ValueError: If the state does not have exactly 16 elements.
+    Actor-Critic 模型:
+    - Actor 負責策略選擇 (輸出動作機率或 logits)
+    - Critic 負責評估當前狀態的價值 (Value function)
     """
-    try:
-        # Extract the state tuple (ignoring potential dictionary elements)
-        state_data = observation[0]
-        state_list = list(state_data)
-    except:
-        state_list = list(observation)
-
-    # Ensure the state has the correct number of elements
-    if len(state_list) != 16:
-        raise ValueError(f"Expected state to have 16 elements, but got {len(state_list)}")
-
-    # Convert state to a tensor
-    return torch.tensor(state_list, dtype=torch.float32, device=device)
-
-
-def get_action(obs):
-    try:
-        state = convert_observation_to_tensor(obs)
-        with torch.no_grad():
-            logits, _ = actor_critic_model(state)
-            action = torch.argmax(logits).item()
-    except:
-        action = random.choice([0, 1])
-    return action
-
-
-# 定义 Actor-Critic 神经网络
-class ActorCriticNetwork(nn.Module):
     def __init__(self, input_dim=16, action_dim=6):
         """
-        Initializes the Actor-Critic network.
-
-        Args:
-            input_dim (int): The number of input features (state dimension).
-            action_dim (int): The number of possible actions.
+        初始化 Actor-Critic 網絡
+        :param input_dim: 狀態空間的維度 (預設為 16)
+        :param action_dim: 動作空間的維度 (預設為 6)
         """
-        super(ActorCriticNetwork, self).__init__()
-
-        # Hidden layers
-        self.hidden_layer_1 = nn.Linear(input_dim, 64)
-        self.hidden_layer_2 = nn.Linear(64, 64)
-
-        # Output layers
-        self.actor_output = nn.Linear(64, action_dim)  # Action logits
-        self.critic_output = nn.Linear(64, 1)  # State-value estimate
+        super(ActorCritic, self).__init__()
+        self.fc1 = nn.Linear(input_dim, 64)  # 第一個全連接層，將輸入映射到 64 維度
+        self.fc2 = nn.Linear(64, 64)  # 第二個全連接層，保持 64 維度
+        self.actor = nn.Linear(64, action_dim)  # Actor 預測動作 logits
+        self.critic = nn.Linear(64, 1)  # Critic 預測當前狀態的價值 (單輸出)
 
     def forward(self, x):
         """
-        Forward pass of the Actor-Critic network.
-
-        Args:
-            x (torch.Tensor): The input tensor representing the state.
-
-        Returns:
-            logits (torch.Tensor): Action logits for policy.
-            value (torch.Tensor): State-value estimate for critic.
+        前向傳播函數，輸入狀態 x，輸出 Actor 的 logits 和 Critic 的狀態價值。
+        :param x: 輸入狀態 (tensor)
+        :return: (logits, value) - Actor 的 logits 和 Critic 的值估計
         """
-        x = F.relu(self.hidden_layer_1(x))  # Apply ReLU activation
-        x = F.relu(self.hidden_layer_2(x))
-        
-        logits = self.actor_output(x)  # Compute action logits
-        value = self.critic_output(x)  # Compute state-value estimate
-
+        x = F.relu(self.fc1(x))  # 第一層 ReLU 激活
+        x = F.relu(self.fc2(x))  # 第二層 ReLU 激活
+        logits = self.actor(x)  # 計算動作 logits (未歸一化)
+        value = self.critic(x)  # 計算狀態價值 (Critic 輸出)
         return logits, value
 
+# 初始化 Actor-Critic 模型，狀態維度為 16，動作維度為 6
+model = ActorCritic(input_dim=16, action_dim=6)
 
-# 加载训练好的模型
-actor_critic_model = ActorCriticNetwork(input_dim=16, action_dim=6)
-actor_critic_model.load_state_dict(torch.load('trained_model.pth', map_location=device))
-actor_critic_model.eval()  # 设置为评估模式
+device = "cpu"  # 設定運行設備 (這裡預設為 CPU)
+
+# 加載已訓練的模型權重
+model.load_state_dict(torch.load('trained_model.pth', map_location=device))
+model.eval()  # 設置模型為評估模式 (避免 Dropout 或 BatchNorm 影響)
+
+
+def preprocess_state(state):
+    """
+    預處理輸入狀態，確保其轉換為 PyTorch tensor。
+    :param state: 觀測到的環境狀態 (通常是元組或列表)
+    :return: 轉換為 PyTorch tensor 的狀態 (float32, device = CPU/GPU)
+    """
+    try:
+        state_tuple = state[0]  # 嘗試提取元組內的狀態 (如果有)
+        state_list = list(state_tuple)  # 轉換為列表
+    except:
+        state_list = list(state)  # 若非元組，則直接轉換為列表
+    
+    # 確保狀態長度正確，否則拋出錯誤
+    if len(state_list) != 16:
+        raise ValueError(f"Expected state to have 16 elements, got {len(state_list)}")
+    
+    return torch.tensor(state_list, dtype=torch.float32, device=device)  # 轉換為 PyTorch tensor
+
+
+def get_action(obs):
+    """
+    根據當前觀測 obs 選擇動作。
+    :param obs: 環境提供的當前觀測 (狀態)
+    :return: 選擇的動作 (整數類型)
+    """
+    try:
+        state = preprocess_state(obs)  # 預處理觀測狀態
+        with torch.no_grad():  # 禁用梯度計算 (推理時不需要計算梯度)
+            logits, _ = model(state)  # 獲取動作 logits
+            action = torch.argmax(logits).item()  # 選擇 logits 最大值對應的動作
+    except:
+        action = random.choice([0, 1])  # 若發生錯誤，隨機選擇動作 (0 或 1)
+    
+    return action

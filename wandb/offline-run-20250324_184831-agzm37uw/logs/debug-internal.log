@@ -1,0 +1,14 @@
+{"time":"2025-03-24T18:48:31.8487023+08:00","level":"INFO","msg":"stream: starting","core version":"0.19.8","symlink path":"C:\\Users\\12177\\OneDrive\\文件\\DRL\\DRL HW1\\DRL-Assignment-1\\wandb\\offline-run-20250324_184831-agzm37uw\\logs\\debug-core.log"}
+{"time":"2025-03-24T18:48:31.9670807+08:00","level":"INFO","msg":"created new stream","id":"agzm37uw"}
+{"time":"2025-03-24T18:48:31.9675931+08:00","level":"INFO","msg":"stream: started","id":"agzm37uw"}
+{"time":"2025-03-24T18:48:31.9675931+08:00","level":"INFO","msg":"handler: started","stream_id":"agzm37uw"}
+{"time":"2025-03-24T18:48:31.9675931+08:00","level":"INFO","msg":"writer: Do: started","stream_id":"agzm37uw"}
+{"time":"2025-03-24T18:48:31.9684795+08:00","level":"INFO","msg":"sender: started","stream_id":"agzm37uw"}
+{"time":"2025-03-24T18:48:31.9806981+08:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-03-24T18:53:55.7481278+08:00","level":"INFO","msg":"stream: closing","id":"agzm37uw"}
+{"time":"2025-03-24T18:53:55.7481278+08:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-03-24T18:53:55.7490335+08:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-03-24T18:53:55.7496781+08:00","level":"INFO","msg":"handler: closed","stream_id":"agzm37uw"}
+{"time":"2025-03-24T18:53:55.7496781+08:00","level":"INFO","msg":"writer: Close: closed","stream_id":"agzm37uw"}
+{"time":"2025-03-24T18:53:55.7496781+08:00","level":"INFO","msg":"sender: closed","stream_id":"agzm37uw"}
+{"time":"2025-03-24T18:53:55.7496781+08:00","level":"INFO","msg":"stream: closed","id":"agzm37uw"}
