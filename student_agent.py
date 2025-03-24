@@ -39,29 +39,15 @@ def convert_observation_to_tensor(observation):
     return torch.tensor(state_list, dtype=torch.float32, device=device)
 
 
-def get_action(observation, model):
-    """
-    Selects an action based on the given observation.
-
-    Args:
-        observation (tuple or list): The environment state.
-        model (torch.nn.Module): The trained Actor-Critic model.
-
-    Returns:
-        int: The selected action index.
-    """
+def get_action(obs):
     try:
-        # Preprocess the state into a tensor
-        state_tensor = convert_observation_to_tensor(observation)
-
-        with torch.no_grad():  # Disable gradient computation for inference
-            action_logits, _ = model(state_tensor)  # Get action probabilities
-            selected_action = torch.argmax(action_logits).item()  # Choose action with highest probability
+        state = convert_observation_to_tensor(obs)
+        with torch.no_grad():
+            logits, _ = actor_critic_model(state)
+            action = torch.argmax(logits).item()
     except:
-        # If an error occurs, choose a random action (fallback)
-        selected_action = random.choice([0, 1])
-
-    return selected_action
+        action = random.choice([0, 1])
+    return action
 
 
 # 定义 Actor-Critic 神经网络
